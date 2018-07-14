@@ -8,14 +8,16 @@ class SnakeSpot {
   final double canvasSize;
   final double slitherRadius;
 
+  double x;
+  double y;
+
   SnakeSpot(this.oscillationRate, this.timeOffset, this.canvasSize, this.slitherRadius);
 
-  Point<double> locationAtTime(double time) {
+  void updateLocation(double time) {
     var adjustedTime = time + timeOffset;
-    return new Point(
-        canvasSize * (0.5 + cos(oscillationRate.x * adjustedTime) * slitherRadius),
-        canvasSize * (0.5 + sin(oscillationRate.y * adjustedTime) * slitherRadius)
-    );
+
+    x = canvasSize * (0.5 + cos(oscillationRate.x * adjustedTime) * slitherRadius);
+    y = canvasSize * (0.5 + sin(oscillationRate.y * adjustedTime) * slitherRadius);
   }
 
 }
