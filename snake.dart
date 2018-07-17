@@ -2,15 +2,17 @@
 import "dart:html";
 import "dart:math";
 
-import "snake_spot.dart";
+import "snake_point.dart";
 
 class Snake {
 
   static final Random randomGenerator = new Random();
 
   static const oscillationRate = const Point(0.0023, 0.0015);
+  static const thicknessProportion = 0.022;
+  static const randomizedTimeRange = 100000.0;
   static const slitherRadius = 0.35;
-  static const spotTimeOffsets = [
+  static const pointTimeOffsets = [
     0,
     120.0,
     230.0,
@@ -20,46 +22,46 @@ class Snake {
   double _canvasSize;
   double _thickness;
 
-  List<SnakeSpot> _spots;
-  SnakeSpot _headSpot;
-  SnakeSpot _controlSpotA;
-  SnakeSpot _controlSpotB;
-  SnakeSpot _tailSpot;
+  List<SnakePoint> _points;
+  SnakePoint _headPoint;
+  SnakePoint _controlPointA;
+  SnakePoint _controlPointB;
+  SnakePoint _tailPoint;
 
   Snake(this._canvasSize) {
 
-    _thickness = _canvasSize * 0.022;
+    _thickness = _canvasSize * thicknessProportion;
 
-    var leadingTimeOffset = randomGenerator.nextDouble() * 100000.0;
+    var leadingTimeOffset = randomGenerator.nextDouble() * randomizedTimeRange;
 
-    _spots = spotTimeOffsets.map((spotOffset) =>
-      new SnakeSpot(
+    _points = pointTimeOffsets.map((pointOffset) =>
+      new SnakePoint(
           oscillationRate,
-          leadingTimeOffset - spotOffset,
+          leadingTimeOffset - pointOffset,
           _canvasSize,
           slitherRadius
       )).toList(growable:false);
 
-    _headSpot = _spots[0];
-    _controlSpotA = _spots[1];
-    _controlSpotB = _spots[2];
-    _tailSpot = _spots[3];
+    _headPoint = _points[0];
+    _controlPointA = _points[1];
+    _controlPointB = _points[2];
+    _tailPoint = _points[3];
 
   }
 
   void draw(CanvasRenderingContext2D context, double time) {
 
-    _spots.forEach((spot) => spot.updateLocation(time));
+    _points.forEach((point) => point.updateLocation(time));
 
     context.setStrokeColorRgb(0, 255, 120);
     context.lineWidth = _thickness;
     context.lineCap = "round";
     context.beginPath();
-    context.moveTo(_headSpot.x, _headSpot.y);
+    context.moveTo(_headPoint.x, _headPoint.y);
     context.bezierCurveTo(
-        _controlSpotA.x, _controlSpotA.y,
-        _controlSpotB.x, _controlSpotB.y,
-        _tailSpot.x, _tailSpot.y
+        _controlPointA.x, _controlPointA.y,
+        _controlPointB.x, _controlPointB.y,
+        _tailPoint.x, _tailPoint.y
     );
     context.stroke();
 

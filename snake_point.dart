@@ -1,7 +1,7 @@
 
 import "dart:math";
 
-class SnakeSpot {
+class SnakePoint {
 
   final Point<double> oscillationRate;
   final double timeOffset;
@@ -11,7 +11,7 @@ class SnakeSpot {
   double x;
   double y;
 
-  SnakeSpot(this.oscillationRate, this.timeOffset, this.canvasSize, this.slitherRadius);
+  SnakePoint(this.oscillationRate, this.timeOffset, this.canvasSize, this.slitherRadius);
 
   void updateLocation(double time) {
     var adjustedTime = time + timeOffset;
