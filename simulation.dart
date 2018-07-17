@@ -1,4 +1,3 @@
-
 import "dart:html";
 import "snake.dart";
 
@@ -25,5 +24,4 @@ class Simulation {
     _snake.draw(_context, time);
     window.requestAnimationFrame(_update);
   }
-
 }
